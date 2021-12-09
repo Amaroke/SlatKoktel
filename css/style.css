@@ -27,6 +27,7 @@ a:hover {
 /*--header start here--*/
 .header {
     padding: 1em 0em;
+    background:rgba(234,87,45,0.65);
 }
 .top-nav {
     float: left;
@@ -45,7 +46,7 @@ a:hover {
     width:30%;
 }
 .search input.serch {
-    font-size: 0.85em;
+    font-size: 1.7em;
     color: #000;
     width: 90%;
     padding: 0.3em 0.5em 0.3em 2em;
@@ -70,11 +71,11 @@ a:hover {
 }
 .head-signin {
     float: right;
-    width: 33%;
+    width: 50%;
     margin-top: 0.8em;
 }
 .head-signin h5 {
-    font-size: 0.81em;
+    font-size: 1.7em;
     font-family: 'Oswald', sans-serif;
 }
 .head-signin h5 a{
@@ -82,10 +83,10 @@ a:hover {
 }
 .head-signin i.hd-dign {
     background: url(../images/signin.png)no-repeat;
-    width: 25px;
-    height: 20px;
+    width: 30px;
+    height: 25px;
     display: inline-block;
-    vertical-align: text-top;
+    vertical-align: middle;
 }
 /*--navg--*/
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
@@ -93,7 +94,7 @@ a:hover {
     background-color:#847057;
 }
 ul.nav.navbar-nav li a {
-    font-size: 0.9em;
+    font-size: 1.7em;
     color: #000;
     font-family: 'Oswald', sans-serif;
 }
@@ -283,7 +284,7 @@ a.item_add {
 /*--banner strat here--*/
 .banner {
     min-height: 620px;
-    background:rgba(209, 72, 37, 0.26);
+    background:#fff;
 }
 .banner-main {
     padding:4em 0em 3em 0em;
@@ -2404,7 +2405,7 @@ h3.typo1 {
     margin-top: 8px;
 }
 .head-signin {
-    width: 25%;
+    width: 35%;
 }
 .search-text {
     width: 40%;
