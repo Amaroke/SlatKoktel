@@ -1,125 +1,166 @@
 <?php
-include("../Donnees.inc.php");
 
-define( 'DB_NAME', 'coming_soon' );
-$username = 'root';
-$pwd = '';
-$db = 'SlatKoktel';
+// Création des requêtes.
+$bdd = new PDO('mysql:host=localhost;charset=utf8', 'root');
+$creation = 'DROP DATABASE IF EXISTS SlatKoktel ;
 
-// création de la requête sql
-// on teste avant si elle existe ou non (par sécurité)
-$sql = "CREATE DATABASE IF NOT EXISTS $db;
-        ALTER DATABASE $db DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-        USE $db;
-        CREATE TABLE Utilisateur (
-          uti_nom VARCHAR(100) DEFAULT NULL,
-          uti_prenom VARCHAR(100) DEFAULT NULL,
-          uti_login VARCHAR(100) NOT NULL,
-          uti_mdp CHAR(40) NOT NULL,
-          uti_sexe VARCHAR(1) DEFAULT NULL,
-          uti_adresse VARCHAR(100) DEFAULT NULL,
-          uti_postal INT(5) DEFAULT NULL,
-          uti_ville VARCHAR(100) DEFAULT NULL,
-          uti_noTelephone CHAR(10) DEFAULT NULL,
-          PRIMARY KEY (uti_login)
-        );
+					CREATE DATABASE IF NOT EXISTS SlatKoktel ;
 
-        CREATE TABLE Recettes (
-          rec_nom VARCHAR(100),
-          rec_ingredients VARCHAR(200),
-          rec_preparation VARCHAR(200),
-          PRIMARY KEY (rec_nom)
-        );
+					USE SlatKoktel ;
 
-        CREATE TABLE Ingredients (
-          ing_nomIngredient VARCHAR(100),
-          PRIMARY KEY (ing_nomIngredient)
-        );
+					CREATE TABLE Recettes (
+						rec_idRecette INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						rec_titre VARCHAR(100) NOT NULL UNIQUE,
+						rec_ingredients TEXT NOT NULL,
+						rec_preparation TEXT NOT NULL
+					) ;
 
-        CREATE TABLE Liaison (
-          lia_nomIngredient VARCHAR(100),
-          lia_nomRecette VARCHAR(100),
-          PRIMARY KEY (lia_nomIngredient, lia_nomRecette),
-          CONSTRAINT FK_LiaisonIngredient FOREIGN KEY (lia_nomIngredient) REFERENCES Ingredients(ing_nomIngredient),
-          CONSTRAINT FK_LiaisonRecette FOREIGN KEY (lia_nomRecette) REFERENCES Recettes(rec_nom)
-        );
+					CREATE TABLE Aliments (
+						al_idAliment INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						al_nomAliment VARCHAR(30) NOT NULL UNIQUE
+					) ;
 
-        CREATE TABLE SuperCategorie (
-          spc_nom VARCHAR(100),
-          spc_nomSuper VARCHAR(100),
-          PRIMARY KEY (spc_nom, spc_nomSuper),
-          CONSTRAINT FK_SuperCategorieNomCategorie FOREIGN KEY (spc_nom) REFERENCES Ingredients(ing_nomIngredient),
-          CONSTRAINT FK_SuperCategorieNomSuperCategorie FOREIGN KEY (spc_nomSuper) REFERENCES Ingredients(ing_nomIngredient)
-        );
+					CREATE TABLE SuperCategorie (
+						spc_idSuperCategorie INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						spc_idAliment INT(6) UNSIGNED,
+						spc_idAlimentSuperCategorie INT(6) UNSIGNED,
+						FOREIGN KEY (spc_idAliment) REFERENCES Aliments(al_idAliment) ON UPDATE CASCADE ON DELETE CASCADE,
+						FOREIGN KEY (spc_idAlimentSuperCategorie) REFERENCES Aliments(al_idAliment) ON UPDATE CASCADE ON DELETE CASCADE
+					) ;
 
-        CREATE TABLE Panier (
-          pan_utilisateur VARCHAR(100),
-          pan_nomRecette VARCHAR(100),
-          PRIMARY KEY (pan_utilisateur, pan_nomRecette),
-          CONSTRAINT FK_PanierUtilisateur FOREIGN KEY (pan_utilisateur) REFERENCES Utilisateur(uti_login),
-          CONSTRAINT FK_PanierRecette FOREIGN KEY (pan_nomRecette) REFERENCES Recettes(rec_nom)
-        )";
+					CREATE TABLE Ingredients (
+						ing_idIngredient INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						ing_idRecette INT(6) UNSIGNED,
+						ing_idAliment INT(6) UNSIGNED,
+						FOREIGN KEY (ing_idAliment) REFERENCES Aliments(al_idAliment) ON UPDATE CASCADE ON DELETE CASCADE,
+						FOREIGN KEY (ing_idRecette) REFERENCES Recettes(rec_idRecette) ON UPDATE CASCADE ON DELETE CASCADE
+					) ;
+					
+					CREATE TABLE Utilisateurs (
+						uti_idUtilisateur INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						uti_pseudo VARCHAR(30) NOT NULL UNIQUE,
+						uti_mdp VARCHAR(30) NOT NULL,
+						uti_sexe VARCHAR(1),
+						uti_prenom VARCHAR(30),
+						uti_nom VARCHAR(30),
+						uti_age INT(6) UNSIGNED,
+						uti_email VARCHAR(30),
+						uti_telephone VARCHAR(30),
+						uti_adresse VARCHAR(100),
+						uti_codePostal VARCHAR(30),
+						uti_ville VARCHAR(30),
+						uti_dateCreation DATETIME NOT NULL
+					) ;
+					
+					CREATE TABLE Favoris (
+						fav_idFavoris INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+						fav_idUtilisateur INT(6) UNSIGNED NOT NULL,
+						fav_idRecette INT(6) UNSIGNED NOT NULL,
+						FOREIGN KEY (fav_idUtilisateur) REFERENCES Utilisateurs(uti_idUtilisateur) ON UPDATE CASCADE ON DELETE CASCADE,
+						FOREIGN KEY (fav_idRecette) REFERENCES Recettes(rec_idRecette) ON UPDATE CASCADE ON DELETE CASCADE
+					)';
 
-try{
-  $bdd = new PDO('mysql:host=localhost;charset=utf8', 'root', 'root');
-}catch (Exception $e) {
+// Initialisation des tables.
+try {
+  echo 'INITIALISATION :<br/>';
+  // On exécute les requêtes une à une.
+  foreach (explode(';', $creation) as $requete) {
+    $bdd->prepare($requete)->execute();
+  }
+  echo '  - La base de données est créée.<br/>';
+} catch (Exception $e) {
   die('Erreur : ' . $e->getMessage());
 }
 
-foreach (explode(';',$sql) as $requete) {
-  $bdd->exec($requete);
-}
-/*Remplissage de la table Recettes*/
-$stmt = $bdd->prepare("INSERT INTO Recettes (rec_nom, rec_ingredients, rec_preparation) VALUES (:nom, :ingredients, :preparation)");
-$stmt->bindParam(':nom', $nom);
-$stmt->bindParam(':ingredients', $ingredients);
-$stmt->bindParam(':preparation', $preparation);
+// Insertion dans les tables.
+echo '<br/>INSERTION :<br/>';
 
-foreach ($Recettes as $titre) {
-  $nom = array_values($titre)[0];
-  $ingredients = array_values($titre)[1];
-  $preparation = array_values($titre)[2];
-  $stmt->execute();
-  // print array 
-}
+// On inclut le script PHP qui contient les tableaux $Recettes et $Hierarchie.
+include('../Donnees.inc.php');
 
-/*Remplissage de la table Ingredients*/
-$stmt = $bdd->prepare("INSERT INTO Ingredients (ing_nomIngredient) VALUES (:nom)");
-$stmt->bindParam(':nom', $nom);
-foreach ($Hierarchie as $key => $aliment) {
-    $nom = $key;
-    $stmt->execute();
-}
-
-/*Remplissage de la table Liaison*/
-$stmt = $bdd->prepare("INSERT INTO Liaison (lia_nomIngredient, lia_nomRecette) VALUES (:nomIng, :nomRec)");
-$stmt->bindParam(':nomIng', $nomIng);
-$stmt->bindParam(':nomRec', $nomRec);
-foreach ($Recettes as $titre){
-    $nomRec = array_values($titre)[0];
-    foreach ($titre as $key => $value ){
-        if(is_array($value)) {
-            foreach ($value as $ing){
-                $nomIng = $ing;
-                $stmt->execute();
-            }
-        }
+// On vérifie qu'on à bien récupérer $Recettes et $Hierarchie.
+if (!empty($Recettes) && !empty($Hierarchie)) {
+  // Insertion dans la table Recettes.
+  try {
+    foreach ($Recettes as $cocktail) {
+      $insertionRecettes = 'INSERT INTO Recettes (rec_titre, rec_ingredients, rec_preparation) VALUES (:titre, :ingredients, :preparation);';
+      $insertionRecettesRequete = $bdd->prepare($insertionRecettes);
+      $insertionRecettesRequete->execute(array(
+        'titre' => $cocktail['titre'],
+        'ingredients' => $cocktail['ingredients'],
+        'preparation' => $cocktail['preparation']
+      ));
+      // On ferme la requête.
+      $insertionRecettesRequete->closeCursor();
     }
-}
+  } catch (PDOException $pdoErr) {
+    die('Erreur insertion recettes : ' . $pdoErr->getMessage());
+  }
+  echo '  - Table Recettes remplie.<br/>';
 
-/*Remplissage de la table SuperCategorie*/
-$stmt = $bdd->prepare("INSERT INTO SuperCategorie (spc_nom, spc_nomSuper) VALUES (:nom, :nomSuper)");
-$stmt->bindParam(':nom', $nom);
-$stmt->bindParam(':nomSuper', $nomSuper);
-foreach ($Hierarchie as $aliment => $tab){
-    if(array_key_exists('super-categorie', $tab)){
-        foreach ($tab['super-categorie'] as $super){
-            $nom = $aliment;
-            $nomSuper = $super;
-            $stmt->execute();
-        }
+  // Insertion dans la table Aliments.
+  try {
+    foreach ($Hierarchie as $nomAliment => $aliment) {
+
+      $insertionAliments = 'INSERT INTO Aliments (al_nomAliment) VALUES (:nomAliment);';
+      $insertionAlimentsRequete = $bdd->prepare($insertionAliments);
+      $insertionAlimentsRequete->execute(array('nomAliment' => $nomAliment));
+      // On ferme la requête.
+      $insertionAlimentsRequete->closeCursor();
     }
+  } catch (PDOException $pdoErr) {
+    die('Erreur : ' . $pdoErr->getMessage());
+  }
+  echo '  - Table Aliments remplie.<br/>';
+
+  // Insertion dans la table SuperCategorie.
+  try {
+    foreach ($Hierarchie as $nomAliment => $aliment) {
+      // On ignore l'aliment "Aliment".
+      if (!empty($aliment['super-categorie'])) {
+        $insertionSupCat = 'INSERT INTO SuperCategorie (spc_idAliment, spc_idAlimentSuperCategorie)
+										VALUES (
+										(SELECT al_idAliment
+											FROM Aliments
+											WHERE al_nomAliment = :nomA),
+										(SELECT al_idAliment
+											FROM Aliments
+											WHERE al_nomAliment = :nomSC));';
+        $insertionSupCatRequete = $bdd->prepare($insertionSupCat);
+
+        foreach ($aliment['super-categorie'] as $superCategorie) {
+          $insertionSupCatRequete->execute(array('nomA' => $nomAliment, 'nomSC' => $superCategorie));
+          // On ferme la requête.
+          $insertionSupCatRequete->closeCursor();
+        }
+      }
+    }
+  } catch (PDOException $pdoErr) {
+    die('Erreur : ' . $pdoErr->getMessage());
+  }
+  echo '  - Table SuperCategories remplie.<br/>';
+
+  // Insertion dans la table Ingredients.
+  try {
+    foreach ($Recettes as $cocktail) {
+      $insertionConstitution = 'INSERT INTO Ingredients (ing_idRecette, ing_idAliment)
+											VALUES (
+												(SELECT rec_idRecette
+													FROM Recettes
+													WHERE rec_titre = :nomRecette),
+												(SELECT al_idAliment
+													FROM Aliments
+													WHERE al_nomAliment = :nomAliment));';
+      $insertionConstitutionRequete = $bdd->prepare($insertionConstitution);
+
+      foreach ($cocktail['index'] as $nomIndex) {
+        $insertionConstitutionRequete->execute(array('nomRecette' => $cocktail['titre'], 'nomAliment' => $nomIndex));
+        // On ferme la requête.
+        $insertionConstitutionRequete->closeCursor();
+      }
+    }
+  } catch (PDOException $pdoErr) {
+    die('Erreur : ' . $pdoErr->getMessage());
+  }
+  echo ' - Table Ingrédients remplie.<br/>';
 }
-
-
-?>
