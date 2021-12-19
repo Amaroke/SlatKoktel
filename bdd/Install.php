@@ -164,3 +164,5 @@ if (!empty($Recettes) && !empty($Hierarchie)) {
   }
   echo ' - Table Ingrédients remplie.<br/>';
 }
+
+?>
