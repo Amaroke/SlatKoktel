@@ -7,9 +7,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 
 <head>
-	<title>Connexion</title>
+	<title>Slat'Koktel</title>
 	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-	<script src="js/jquery-1.11.0.min.js"></script>
 	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -17,8 +16,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link href='//fonts.googleapis.com/css?family=Hind:400,500,300,600,700' rel='stylesheet' type='text/css'>
 	<link href='//fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
-	<script type="text/javascript" src="js/move-top.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
@@ -27,8 +24,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		});
 	</script>
-	<script src="js/simpleCart.min.js"> </script>
-	<script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -74,28 +69,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 	<!--Fin du header de la page-->
 
-	<!--Connexion-->
-	<div class="login">
+	<div class="banner">
 		<div class="container">
-			<div class="login-main">
-				<h1>Connexion</h1>
-				<div class="col-md-6 login-left">
-					<h2>Utilisateur existant</h2>
-					<form>
-						<input type="text" placeholder="Nom d'utilisateur" required="">
-						<input type="password" placeholder="Mot de passe" required="">
-						<input type="submit" value="Se connecter">
-					</form>
+			<div class="banner-main">
+				<div class="col-md-6 banner-left">
+					<img src="images/Margarita.png" alt="" class="img-responsive">
 				</div>
-				<div class="col-md-6 login-right">
-					<h3>Nouvel utilisateur ? Crée un compte !</h3>
-					<a href="signup.php" class="login-btn">Créer un compte</a>
+				<div class="col-md-6 banner-right simpleCart_shelfItem">
+					<span class="bann-heart"> </span>
+					<h1>Margarita, notre produit phare !</h1>
+					<h5 class="item_price">Savoureux et facile à faire !</h5>
+					<h6>Ce cocktail aurait été créé en 1948 à Acapulco par une Américaine, Margaret Sames, dite «
+						Margarita », et porte comme nom la traduction en espagnol du prénom Margaret.</h6>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>
-	<!--Fin de connexion-->
 
 	<!-- Footer de la page -->
 	<div class="footer">
@@ -108,6 +98,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	</div>
 	<!-- Fin du footer de la page -->
+	</div>
 </body>
 
 </html>

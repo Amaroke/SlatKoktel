@@ -1,4 +1,5 @@
-<!--Author: W3layouts & ZIMOL Guillaume & MATHIEU STEINBACH Hugo
+
+<!--Author: W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
@@ -7,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 
 <head>
-	<title>Connexion</title>
+	<title>Créer un compte</title>
 	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
 	<script src="js/jquery-1.11.0.min.js"></script>
 	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -74,28 +75,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 	<!--Fin du header de la page-->
 
-	<!--Connexion-->
-	<div class="login">
+	
+	<!--Création de compte-->
+	<div class="signin">
 		<div class="container">
-			<div class="login-main">
-				<h1>Connexion</h1>
-				<div class="col-md-6 login-left">
-					<h2>Utilisateur existant</h2>
-					<form>
-						<input type="text" placeholder="Nom d'utilisateur" required="">
-						<input type="password" placeholder="Mot de passe" required="">
-						<input type="submit" value="Se connecter">
-					</form>
-				</div>
-				<div class="col-md-6 login-right">
-					<h3>Nouvel utilisateur ? Crée un compte !</h3>
-					<a href="signup.php" class="login-btn">Créer un compte</a>
-				</div>
-				<div class="clearfix"> </div>
+			<div class="signin-main">
+				<h1>Créer un compte</h1>
+				<h2>Informations</h2>
+				<?php
+					if(isset($_POST["submit"])){
+						
+
+					}
+					if($donnees = $results->fetch())?>
+					
+				<form>
+					<input type="text" placeholder="Nom d'utilisateur">
+					<input type="text" class="no-margin" placeholder="E-mail">
+					<input type="password" placeholder="Mot de passe" required="" />
+					<input type="password" class="no-margin" placeholder="Confirmation du mot de passe" required="" />
+					<input type="submit" value="Envoyer">
+				</form>
 			</div>
 		</div>
 	</div>
-	<!--Fin de connexion-->
+	<!--Fin de création de compte-->
 
 	<!-- Footer de la page -->
 	<div class="footer">
