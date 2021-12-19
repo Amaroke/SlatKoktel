@@ -81,11 +81,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="signin-main">
 				<h1>Créer un compte</h1>
 				<h2>Informations</h2>
-				<form>
-					<input type="text" placeholder="Nom d'utilisateur">
-					<input type="text" class="no-margin" placeholder="E-mail">
-					<input type="password" placeholder="Mot de passe" required="" />
-					<input type="password" class="no-margin" placeholder="Confirmation du mot de passe" required="" />
+				<form name="inscription" method="POST" action="inscription.php"> <!-- method POST permet de camoufler les informations dans l'url / action nom du fichier qui sera exec lors du submit -->
+					
+					<input type="text" name="uti_pseudo" placeholder="Pseudo" required=""> <!-- Ajout d'un champ name dans input-->
+					<input type="text" name="uti_email" class="no-margin" placeholder="E-mail" required="">
+					<input type="text" name="uti_prenom" placeholder="Eric" />  
+					<input type="text" name="uti_nom" class="no-margin" placeholder="Dupont" />  
+					<input type="text" name="uti_age" placeholder="18" />  
+					<input type="text" name="uti_telephone" class="no-margin" placeholder="0601020304" /> 
+					<input type="text" name="uti_adresse" placeholder="12 rue de Mance" /> 
+					<input type="text" name="uti_ville" class="no-margin" placeholder="Lantefontaine" />  
+					<input type="password" name="uti_mdp" placeholder="Mot de passe" required="" />
+					<input type="password" name="uti_mdp2" class="no-margin" placeholder="Confirmation du mot de passe" required="" />
 					<input type="submit" value="Envoyer">
 				</form>
 			</div>
