@@ -18,7 +18,7 @@ $uti_mdp2 = htmlspecialchars($_POST["uti_mdp2"]);
 if (strlen($uti_pseudo) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
     try {
         // On se connecte à la BDD.
-        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2'); //creer un autre fichier, on l'utilise trop souvent
+        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
 
         // On vérifie que l'email n'est pas déjà pris.
         $test_login = $bdd->prepare("SELECT uti_pseudo FROM Utilisateurs WHERE uti_pseudo = '" . $uti_pseudo . "' ");
@@ -53,8 +53,7 @@ if (strlen($uti_pseudo) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
 
             // On retourne à l'accueil.
             header('Location: ../index.php');
-        }
-        else {
+        } else {
             echo "<script> alert('Veuillez choisir un autre pseudo et saisir des mots de passe similaire.');history.back();</script>";
         }
     } catch (PDOException $e) {

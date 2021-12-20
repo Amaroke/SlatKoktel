@@ -32,7 +32,7 @@ if (strlen($uti_oldmdp) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
         $nb_res += $test_oldmdp->rowCount();
 
         // Si il le mot de passe saisie est bien celui lié à l'utilisateur.
-        if ($nb_res == 1) { 
+        if ($nb_res == 1) {
             // On édite les informations de l'utilisateur dans la BDD.
             $udpateUser = 'UPDATE Utilisateurs SET uti_email=:uti_email, uti_telephone=:uti_telephone ,uti_codePostal=:uti_codePostal, uti_adresse=:uti_adresse, uti_ville=:uti_ville, uti_mdp=:uti_mdp';
             $udpateUserRequete = $bdd->prepare($udpateUser);

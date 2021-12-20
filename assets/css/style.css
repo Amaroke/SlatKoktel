@@ -900,7 +900,10 @@ span.glyphicon.glyphicon-share-alt {
     outline: none;
     padding: 20px;
     overflow: auto;
-    height: 155px;
+    height: 400px;
+}
+.row1 select{
+    width : 200px;
 }
 .row2 {
 	height: 175px;
