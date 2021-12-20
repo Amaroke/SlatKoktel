@@ -76,7 +76,7 @@ try {
 echo '<br/>INSERTION :<br/>';
 
 // On inclut le script PHP qui contient les tableaux $Recettes et $Hierarchie.
-include('../Donnees.inc.php');
+include('../assets/Donnees.inc.php');
 
 // On vérifie qu'on à bien récupérer $Recettes et $Hierarchie.
 if (!empty($Recettes) && !empty($Hierarchie)) {
