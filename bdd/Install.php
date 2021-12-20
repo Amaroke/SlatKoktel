@@ -1,7 +1,7 @@
 <?php
 
 // Création des requêtes.
-$bdd = new PDO('mysql:host=localhost;charset=utf8', 'root');
+$bdd = new PDO('mysql:host=localhost;charset=utf8', 'slatkoktel', 'root2');
 $creation = 'DROP DATABASE IF EXISTS SlatKoktel ;
 
 					CREATE DATABASE IF NOT EXISTS SlatKoktel ;
@@ -43,13 +43,12 @@ $creation = 'DROP DATABASE IF EXISTS SlatKoktel ;
 						uti_sexe VARCHAR(1),
 						uti_prenom VARCHAR(30),
 						uti_nom VARCHAR(30),
-						uti_age INT(6) UNSIGNED,
+						uti_naissance DATE,
 						uti_email VARCHAR(30),
 						uti_telephone VARCHAR(30),
 						uti_adresse VARCHAR(100),
 						uti_codePostal VARCHAR(30),
-						uti_ville VARCHAR(30),
-						uti_dateCreation DATETIME NOT NULL
+						uti_ville VARCHAR(30)
 					) ;
 					
 					CREATE TABLE Favoris (
