@@ -18,7 +18,7 @@ $uti_mdp2 = htmlspecialchars($_POST["uti_mdp2"]);
 if (strlen($uti_pseudo) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
     try {
         // On se connecte à la BDD.
-        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2'); //creer un autre fichier, on l'utilise trop souvent
 
         // On vérifie que l'email n'est pas déjà pris.
         $test_login = $bdd->prepare("SELECT uti_pseudo FROM Utilisateurs WHERE uti_pseudo = '" . $uti_pseudo . "' ");
