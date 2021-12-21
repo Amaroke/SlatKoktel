@@ -14,7 +14,6 @@
 
 <body>
 	<?php include 'header.php'; ?>
-	<!--product start here-->
 	<div class="product">
 		<div class="container">
 			<div class="product-main">
@@ -31,33 +30,37 @@
 					</div>
 				</div>
 				<div class="col-md-9 product-block">
-
+					<h4>Sélectionnez des aliments sur la Gauche pour faire apparaitre les recettes correspondantes ci-dessous.</h4><br>
+					<h5>Vous pourrez ensuite cliquer sur la flèche <a>→</a> à droite d'une recette pour y accéder.</h5><br>
 					<?php
-					if (strlen($_SESSION["choix2"]) > 0) {
-						$bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+					for ($i = 1; $i < 9; ++$i) {
+						if ((strlen($_SESSION["choix" . $i]) > 0)) {
+							$bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
 
-						$sql = "SELECT ing_idRecette FROM Ingredients WHERE	ing_idAliment = :choix2";
-						$stmt = $bdd->prepare($sql);
-						$stmt->bindParam(':choix2', $_SESSION["choix3"]);
-						$stmt->execute();
+							$sql = "SELECT ing_idRecette FROM Ingredients WHERE	ing_idAliment = :choix";
+							$stmt = $bdd->prepare($sql);
+							$stmt->bindParam(':choix', $_SESSION["choix" . ($i + 1)]);
+							$stmt->execute();
 
-						while ($row = $stmt->fetch()) {
-							$sql2 = "SELECT rec_titre FROM Recettes WHERE rec_idRecette = :choix2";
-							$stmt2 = $bdd->prepare($sql2);
-							$stmt2->bindParam(':choix2', $row['ing_idRecette']);
-							$stmt2->execute();
-							$row2 = $stmt2->fetch();
-							echo ($row2["rec_titre"]);
-							echo ("<br>");
+							while ($row = $stmt->fetch()) {
+								$sql2 = "SELECT rec_titre, rec_idRecette FROM Recettes WHERE rec_idRecette = :choix";
+								$stmt2 = $bdd->prepare($sql2);
+								$stmt2->bindParam(':choix', $row['ing_idRecette']);
+								$stmt2->execute();
+								$row2 = $stmt2->fetch();
+								echo ("<ul>");
+								echo ("<li>" . $row2["rec_titre"] . '<a href="single.php?id_recette='.$row2["rec_idRecette"].'"> →</a></li>');
+								echo ("</ul>");
+							}
 						}
 					}
+
 					?>
 
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--product end here-->
 
 	<?php include 'footer.php'; ?>
 </body>

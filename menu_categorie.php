@@ -65,6 +65,7 @@ if (!empty($_POST["aliment1"])) {
     <?php
     // Pour chaque liste, on génère la suivante si le besoin est, on s'arrête à 8 car dans la hiérarchie impossible de descendre en dessous de 8 sous-aliments.
     for ($i = 0; $i < 8; ++$i) {
+
         echo ("<br><br>");
 
         // On se connecte à la BDD.
@@ -80,9 +81,11 @@ if (!empty($_POST["aliment1"])) {
             print_r($test->errorInfo());
         }
 
+
         // Si on a rempli le choix actuel et qu'il possède des sous catégories, on les affiche dans le menu suivant.
         if ((strlen($_SESSION["choix" . ($i + 1)]) > 0) && ($test->fetch() != null)) {
             // On rééxecute la requête pour se remettre au début.
+            
             $test->execute(['choix' => $_SESSION["choix" . ($i + 1)]]);
             echo '<select name="aliment';
             echo ($i + 2);

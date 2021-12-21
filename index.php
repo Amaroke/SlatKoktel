@@ -11,8 +11,9 @@
 	<div class="banner">
 		<div class="container">
 			<div class="banner-main">
+				<br>
 				<div class="col-md-6 banner-left">
-					<img src="assets/images/Margarita.jpg" alt="" class="img-responsive">
+					<img src="assets/images/Margarita.jpg" alt="">
 				</div>
 				<div class="col-md-6 banner-right simpleCart_shelfItem">
 					<span class="bann-heart"> </span>
