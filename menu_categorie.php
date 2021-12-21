@@ -76,20 +76,20 @@ if (!empty($_POST["aliment1"])) {
         $test = $bdd->prepare($sql);
 
         // On sélectione l'aliment en fonction du menu où l'on se situe.
-        if (!$test->execute(['choix' => $_SESSION["choix" . $i + 1]])) {
+        if (!$test->execute(['choix' => $_SESSION["choix" . ($i + 1)]])) {
             print_r($test->errorInfo());
         }
 
         // Si on a rempli le choix actuel et qu'il possède des sous catégories, on les affiche dans le menu suivant.
-        if ((strlen($_SESSION["choix" . $i + 1]) > 0) && ($test->fetch() != null)) {
+        if ((strlen($_SESSION["choix" . ($i + 1)]) > 0) && ($test->fetch() != null)) {
             // On rééxecute la requête pour se remettre au début.
-            $test->execute(['choix' => $_SESSION["choix" . $i + 1]]);
+            $test->execute(['choix' => $_SESSION["choix" . ($i + 1)]]);
             echo '<select name="aliment';
             echo ($i + 2);
             echo '" onchange="change_aliment()"><option value=""></option>';
             // Pour chaque sous catégorie on crée une option.
             while ($row = $test->fetch()) {
-                if ($_SESSION["choix" . $i + 2] == $row['al_idAliment']) {
+                if ($_SESSION["choix" . ($i + 2)] == $row['al_idAliment']) {
                     $selection = "selected";
                 } else {
                     $selection = "";

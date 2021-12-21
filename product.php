@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<?php include 'head.php' ?>
+	<?php include 'head.php'; ?>
 	<script>
 		function change_aliment() {
 			// Dès qu'il choisit quelque chose on rappel la page.
@@ -24,7 +24,7 @@
 							<section class="sky-form">
 								<h1>Catégories</h1>
 								<div class="row1 scroll-pane">
-									<?php include 'menu_categorie.php' ?>
+									<?php require 'menu_categorie.php'; ?>
 								</div>
 							</section>
 						</div>

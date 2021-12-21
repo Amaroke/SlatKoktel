@@ -23,7 +23,7 @@
 					<input type="text" name="uti_nom" placeholder="Nom de famille" class="no-margin" />
 					<input type="text" name="uti_prenom" placeholder="Prénom" />
 					<input type="text" name="uti_email" placeholder="E-mail" pattern="[aA0-zZ9]+[.]?[aA0-zZ9]*@[aA-zZ]*[.]{1}[aA-zZ]+" class="no-margin">
-					&nbsp&nbspDate de naissance : <input type="date" name="uti_naissance" placeholder="Date de naissance jj/mm/aaaa" minlength="10" maxlength="10" /></br></br>
+					&nbsp&nbspDate de naissance : <input type="date" name="uti_naissance" value="2000-01-01" placeholder="Date de naissance jj/mm/aaaa" minlength="10" maxlength="10" /></br></br>
 					<input type="text" name="uti_adresse" placeholder="Adresse" class="no-margin" />
 					<input type="text" name="uti_codePostal" placeholder="Code Postal" />
 					<input type="text" name="uti_ville" placeholder="Ville" class="no-margin" />
