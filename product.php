@@ -10,27 +10,6 @@
 			document.listes.submit();
 		}
 	</script>
-	<?php
-	session_start();
-	if (!empty($_POST["aliments"])) {
-		$_SESSION["choix1"] = $_POST["aliments"];
-		if (!empty($_POST["sous_aliments"])) {
-			$_SESSION["choix2"] = $_POST["sous_aliments"];
-			if (!empty($_POST["sous_sous_aliments"])) {
-				$_SESSION["choix3"] = $_POST["sous_sous_aliments"];
-			} else {
-				$_SESSION["choix3"] = NULL;
-			}
-		} else {
-			$_SESSION["choix2"] = NULL;
-			$_SESSION["choix3"] = NULL;
-		}
-	} else {
-		$_SESSION["choix1"] = NULL;
-		$_SESSION["choix2"] = NULL;
-		$_SESSION["choix3"] = NULL;
-	}
-	?>
 </head>
 
 <body>
@@ -54,29 +33,25 @@
 				<div class="col-md-9 product-block">
 
 					<?php
-					if (strlen($_SESSION["choix1"]) > 0) {
+					if (strlen($_SESSION["choix2"]) > 0) {
 						$bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
 
-						$sql = "SELECT ing_idRecette FROM Ingredients WHERE	ing_idAliment = :choix1";
+						$sql = "SELECT ing_idRecette FROM Ingredients WHERE	ing_idAliment = :choix2";
 						$stmt = $bdd->prepare($sql);
-						$stmt->bindParam(':choix1', $_SESSION["choix2"]);
+						$stmt->bindParam(':choix2', $_SESSION["choix3"]);
 						$stmt->execute();
 
 						while ($row = $stmt->fetch()) {
-							$sql2 = "SELECT rec_titre FROM Recettes WHERE rec_idRecette = :choix1";
+							$sql2 = "SELECT rec_titre FROM Recettes WHERE rec_idRecette = :choix2";
 							$stmt2 = $bdd->prepare($sql2);
-							$stmt2->bindParam(':choix1', $row['ing_idRecette']);
+							$stmt2->bindParam(':choix2', $row['ing_idRecette']);
 							$stmt2->execute();
 							$row2 = $stmt2->fetch();
-							echo($row2["rec_titre"]);
-							echo("<br>");
+							echo ($row2["rec_titre"]);
+							echo ("<br>");
 						}
 					}
 					?>
-
-					<!-- Ici pour la requete sql on regerdera tout les recettes qui ont l'id de l'aliment à l'intérieur (regarder la structure de la bdd Ingredients) -->
-
-					<!-- Ici on aura la liste -->
 
 				</div>
 			</div>

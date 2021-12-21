@@ -21,7 +21,14 @@
 							<ul class="nav navbar-nav">
 								<li><a href="index.php">Accueil</a></li>
 								<li><a href="product.php">Nos cocktails</a></li>
-								<li><a href="account.php">Mon Compte</a></li>
+								<?php
+								session_start();
+								$var = $_SESSION["uti_connecte"];
+								if (!($var == "")) {
+									echo ('<li><a href="account.php">Mon Compte</a></li>');
+								}
+								?>
+
 							</ul>
 						</div>
 					</nav>
