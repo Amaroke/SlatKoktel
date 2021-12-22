@@ -1,38 +1,15 @@
 <?php
 session_start();
-// On réinitialise les choix.
-for ($i = 1; $i < 9; ++$i) {
-    $_SESSION["choix" . $i] = NULL;
-}
 if (isset($_GET["dernier_choix"])) {
     $dernier_choix = $_GET["dernier_choix"];
-}
-else {
+} else {
     $dernier_choix = 0;
 }
-// On récupère les choix précédents.
-if (!empty($_POST["aliment1"]) && ($dernier_choix >= 1)) {
-    $_SESSION["choix1"] = $_POST["aliment1"];
-    if (!empty($_POST["aliment2"]) && ($dernier_choix >= 2)) {
-        $_SESSION["choix2"] = $_POST["aliment2"];
-        if (!empty($_POST["aliment3"]) && ($dernier_choix >= 3)) {
-            $_SESSION["choix3"] = $_POST["aliment3"];
-            if (!empty($_POST["aliment4"]) && ($dernier_choix >= 4)) {
-                $_SESSION["choix4"] = $_POST["aliment4"];
-                if (!empty($_POST["aliment5"]) && ($dernier_choix >= 5)) {
-                    $_SESSION["choix5"] = $_POST["aliment5"];
-                    if (!empty($_POST["aliment6"]) && ($dernier_choix >= 6)) {
-                        $_SESSION["choix6"] = $_POST["aliment6"];
-                        if (!empty($_POST["aliment7"]) && ($dernier_choix >= 7)) {
-                            $_SESSION["choix7"] = $_POST["aliment7"];
-                            if (!empty($_POST["aliment8"]) && ($dernier_choix >=8)) {
-                                $_SESSION["choix8"] = $_POST["aliment8"];
-                            }
-                        }
-                    }
-                }
-            }
-        }
+// On réinitialise les choix et on récupère les choix précédents.
+for ($i = 1; $i < 9; ++$i) {
+    $_SESSION["choix" . $i] = NULL;
+    if (!empty($_POST["aliment" . $i]) && ($dernier_choix >= $i)) {
+        $_SESSION["choix" . $i] = $_POST["aliment" . $i];
     }
 }
 ?>
