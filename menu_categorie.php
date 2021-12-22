@@ -4,23 +4,26 @@ session_start();
 for ($i = 1; $i < 9; ++$i) {
     $_SESSION["choix" . $i] = NULL;
 }
-
+if (isset($_GET["dernier_choix"])) {
+    $dernier_choix = $_GET["dernier_choix"];
+}
+echo ($dernier_choix);
 // On récupère les choix précédents.
-if (!empty($_POST["aliment1"])) {
+if (!empty($_POST["aliment1"]) && ($dernier_choix >= 1)) {
     $_SESSION["choix1"] = $_POST["aliment1"];
-    if (!empty($_POST["aliment2"])) {
+    if (!empty($_POST["aliment2"]) && ($dernier_choix >= 2)) {
         $_SESSION["choix2"] = $_POST["aliment2"];
-        if (!empty($_POST["aliment3"])) {
+        if (!empty($_POST["aliment3"]) && ($dernier_choix >= 3)) {
             $_SESSION["choix3"] = $_POST["aliment3"];
-            if (!empty($_POST["aliment4"])) {
+            if (!empty($_POST["aliment4"]) && ($dernier_choix >= 4)) {
                 $_SESSION["choix4"] = $_POST["aliment4"];
-                if (!empty($_POST["aliment5"])) {
+                if (!empty($_POST["aliment5"]) && ($dernier_choix >= 5)) {
                     $_SESSION["choix5"] = $_POST["aliment5"];
-                    if (!empty($_POST["aliment6"])) {
+                    if (!empty($_POST["aliment6"]) && ($dernier_choix >= 6)) {
                         $_SESSION["choix6"] = $_POST["aliment6"];
-                        if (!empty($_POST["aliment7"])) {
+                        if (!empty($_POST["aliment7"]) && ($dernier_choix >= 7)) {
                             $_SESSION["choix7"] = $_POST["aliment7"];
-                            if (!empty($_POST["aliment8"])) {
+                            if (!empty($_POST["aliment8"]) && ($dernier_choix >=8)) {
                                 $_SESSION["choix8"] = $_POST["aliment8"];
                             }
                         }
@@ -34,7 +37,7 @@ if (!empty($_POST["aliment1"])) {
 
 <!-- On prépare une première liste avec tous les aliments de base-->
 <form name="listes">
-    <select name="aliment1" onchange="change_aliment()">
+    <select name="aliment1" onchange="change_aliment(1)">
         <option value="" selected></option>
         <option value="7" <?php if ($_SESSION["choix1"] == 7) {
                                 echo "selected";
@@ -85,11 +88,11 @@ if (!empty($_POST["aliment1"])) {
         // Si on a rempli le choix actuel et qu'il possède des sous catégories, on les affiche dans le menu suivant.
         if ((strlen($_SESSION["choix" . ($i + 1)]) > 0) && ($test->fetch() != null)) {
             // On rééxecute la requête pour se remettre au début.
-            
+
             $test->execute(['choix' => $_SESSION["choix" . ($i + 1)]]);
             echo '<select name="aliment';
             echo ($i + 2);
-            echo '" onchange="change_aliment()"><option value=""></option>';
+            echo '" onchange="change_aliment(' . ($i + 2) . ')"><option value=""></option>';
             // Pour chaque sous catégorie on crée une option.
             while ($row = $test->fetch()) {
                 if ($_SESSION["choix" . ($i + 2)] == $row['al_idAliment']) {

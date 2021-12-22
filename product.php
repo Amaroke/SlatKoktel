@@ -3,9 +3,10 @@
 <head>
 	<?php include 'head.php'; ?>
 	<script>
-		function change_aliment() {
+		function change_aliment(dernier_choix) {
+			console.log(dernier_choix);
 			// Dès qu'il choisit quelque chose on rappel la page.
-			document.listes.action = "product.php";
+			document.listes.action = "product.php?dernier_choix=".concat(dernier_choix);
 			document.listes.method = "POST";
 			document.listes.submit();
 		}
@@ -49,7 +50,7 @@
 								$stmt2->execute();
 								$row2 = $stmt2->fetch();
 								echo ("<ul>");
-								echo ("<li>" . $row2["rec_titre"] . '<a href="single.php?id_recette='.$row2["rec_idRecette"].'"> →</a></li>');
+								echo ("<li>" . $row2["rec_titre"] . '<a href="single.php?id_recette=' . $row2["rec_idRecette"] . '"> →</a></li>');
 								echo ("</ul>");
 							}
 						}
