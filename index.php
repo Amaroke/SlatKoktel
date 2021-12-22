@@ -6,7 +6,10 @@
 </head>
 
 <body>
-	<?php include 'header.php'; ?>
+	<?php include 'header.php';
+	$_SESSION["aliment_choisi"] = NULL;
+	$_SESSION["aliment_banni"] = NULL;
+	?>
 
 	<div class="banner">
 		<div class="container">
