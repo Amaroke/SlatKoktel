@@ -22,7 +22,7 @@
 								</div>
 								<li><a href="product.php">Cocktails</a></li>
 								<li><a href="recherche_recettes.php">Recherche</a></li>
-								<li><a href="#">Mes recettes préférées</a></li>
+								<li><a href="favorite.php">Mes recettes préférées</a></li>
 							</ul>
 						</div>
 					</nav>
