@@ -7,7 +7,9 @@ for ($i = 1; $i < 9; ++$i) {
 if (isset($_GET["dernier_choix"])) {
     $dernier_choix = $_GET["dernier_choix"];
 }
-echo ($dernier_choix);
+else {
+    $dernier_choix = 0;
+}
 // On récupère les choix précédents.
 if (!empty($_POST["aliment1"]) && ($dernier_choix >= 1)) {
     $_SESSION["choix1"] = $_POST["aliment1"];
@@ -83,7 +85,6 @@ if (!empty($_POST["aliment1"]) && ($dernier_choix >= 1)) {
         if (!$test->execute(['choix' => $_SESSION["choix" . ($i + 1)]])) {
             print_r($test->errorInfo());
         }
-
 
         // Si on a rempli le choix actuel et qu'il possède des sous catégories, on les affiche dans le menu suivant.
         if ((strlen($_SESSION["choix" . ($i + 1)]) > 0) && ($test->fetch() != null)) {

@@ -4,7 +4,6 @@
 	<?php include 'head.php'; ?>
 	<script>
 		function change_aliment(dernier_choix) {
-			console.log(dernier_choix);
 			// Dès qu'il choisit quelque chose on rappel la page.
 			document.listes.action = "product.php?dernier_choix=".concat(dernier_choix);
 			document.listes.method = "POST";
