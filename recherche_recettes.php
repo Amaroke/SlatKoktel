@@ -65,23 +65,23 @@
         $_SESSION["aliment_choisi"] = NULL;
     } else {
         if ($_POST["le_type"] == 1) {
-            if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) == false) {
+            if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) === false) {
 
                 if ($_SESSION["aliment_choisi"] == NULL) {
-                    $_SESSION["aliment_choisi"] = " " . $_POST["rechercher"];
+                    $_SESSION["aliment_choisi"] = "" . $_POST["rechercher"]."";
                 } else {
                     // si cet aliment n'a pas été déjà ajouté
-                    if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) == false) {
+                    if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) === false) {
                         $_SESSION["aliment_choisi"] = $_SESSION["aliment_choisi"] . " / " . $_POST["rechercher"];
                     }
                 }
             }
         } else {
-            if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) == false) {
+            if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) === false) {
                 if ($_SESSION["aliment_banni"] == NULL) {
-                    $_SESSION["aliment_banni"] = " " . $_POST["rechercher"];
+                    $_SESSION["aliment_banni"] = "" . $_POST["rechercher"]."";
                 } else {
-                    if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) == false) {
+                    if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) === false) {
                         $_SESSION["aliment_banni"] = $_SESSION["aliment_banni"] . " / " . $_POST["rechercher"];
                     }
                 }
@@ -164,34 +164,61 @@
                                 }
                                 mysqli_set_charset($conn, "utf8");
 
-                                if (strlen($_SESSION["aliment_choisi"]) < 1) {
+                                if (strlen($_SESSION["aliment_choisi"]) < 1 && strlen($_SESSION["aliment_banni"]) < 1) {
                                     $sql = "";
                                 } else {
                                     $_SESSION["aliment_choisi"] = trim($_SESSION["aliment_choisi"]);
-                                    $lesingredients = "contenu like \"%" . $_SESSION["aliment_choisi"] . "%\"";
+                                    //les aliments banni
+                                    $_SESSION["aliment_banni"] = trim($_SESSION["aliment_banni"]);
+
+                                    $lesingredients_banni = "contenu like \"%  " . $_SESSION["aliment_banni"] . "  %\"";
+                                    $lesingredients = "contenu like \"%  " . $_SESSION["aliment_choisi"] . "  %\"";
                                     // Citron / Herbe / Fraise
-                                    $lesingredients = str_replace(" / ", "%\" and contenu like \"  %", $lesingredients);
+                                    $lesingredients = str_replace(" / ", "  %\" and contenu like \"  %  ", $lesingredients);
+                                    $lesingredients_banni = str_replace(" / ", "  %\" or contenu like \"  %  ", $lesingredients_banni);
                                     //'Citron','Herbe','Fraise'                                            
                                     echo ($_SESSION["aliment_choisi"]);
                                     echo ("<br>" . $lesingredients);
 
+                                    echo ("<br>" . $_SESSION["aliment_banni"]);
+                                    echo ("<br>" . $lesingredients_banni);
+
                                     $sql = "
                                         SELECT rec_titre,contenu FROM (
                                         SELECT
-                                            rec_titre,GROUP_CONCAT(al_nomAliment,\"  \") contenu
+                                            rec_titre,GROUP_CONCAT(concat('  ', al_nomAliment,'  ')) contenu
                                         FROM
                                             Recettes
                                         LEFT JOIN Ingredients ON rec_idRecette = ing_idRecette
                                         LEFT JOIN Aliments ON al_idAliment = ing_idAliment
                                         where al_nomAliment is not null
                                         GROUP BY rec_titre) a
-                                        where " . $lesingredients . "    
+                                        where " . $lesingredients . "   
+                                    ";
+
+                                    $sql2 = "
+                                        SELECT rec_titre FROM (
+                                        SELECT
+                                            rec_titre,GROUP_CONCAT(concat('  ', al_nomAliment,'  ')) contenu
+                                        FROM
+                                            Recettes
+                                        LEFT JOIN Ingredients ON rec_idRecette = ing_idRecette
+                                        LEFT JOIN Aliments ON al_idAliment = ing_idAliment
+                                        where al_nomAliment is not null
+                                        GROUP BY rec_titre) b
+                                        where " . $lesingredients_banni . "   
+                                    ";
+
+                                    $sql3 = "
+                                        SELECT rec_titre,contenu FROM (
+                                        ".$sql." AND rec_titre NOT IN (".$sql2.")
+                                        ) c
                                     ";
                                 }
 
 
-                                echo ("<br>" . $sql);
-                                $result = $conn->query($sql);
+                                echo ("<br>" . $sql3);
+                                $result = $conn->query($sql3);
 
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
