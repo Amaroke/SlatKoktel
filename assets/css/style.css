@@ -716,6 +716,28 @@ ul.bann-btns li a:hover {
     padding: 4em 0em 4em 0em;
 }
 
+.result {
+    max-height: 200px;
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 375px;
+    float: left;
+    border: solid 1px grey;
+}
+
+.result p {
+    margin: 0;
+    padding: 10px 10px;
+    border: 2px solid #CCCCCC;
+    border-top: none;
+    cursor: pointer;
+    width: 370px;
+}
+
+.result p:hover {
+    background: #f2f2f2;
+}
+
 @media(max-width:1600px) {}
 
 @media(max-width:1440px) {}
