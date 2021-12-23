@@ -12,6 +12,12 @@
             document.rechercher_aliments.method = "POST";
             document.rechercher_aliments.submit();
         }
+        function recherche_score() {
+            document.rechercher_aliments.action = "recherche_recettes.php";
+            document.getElementById("le_score").value = 1;
+            document.rechercher_aliments.method = "POST";
+            document.rechercher_aliments.submit();
+        }
 
         function valide_aliment(le_type) {
             // on doit vérifier qu'il y a un aliment de choisi
@@ -62,13 +68,13 @@
     <?php include 'header.php';
 
     if (strlen($_POST["rechercher"]) < 1) {
-        $_SESSION["aliment_choisi"] = NULL;
+        // $_SESSION["aliment_choisi"] = NULL;
     } else {
         if ($_POST["le_type"] == 1) {
             if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) === false) {
 
                 if ($_SESSION["aliment_choisi"] == NULL) {
-                    $_SESSION["aliment_choisi"] = "" . $_POST["rechercher"]."";
+                    $_SESSION["aliment_choisi"] = $_POST["rechercher"];
                 } else {
                     // si cet aliment n'a pas été déjà ajouté
                     if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) === false) {
@@ -79,7 +85,7 @@
         } else {
             if (stripos($_SESSION["aliment_choisi"], $_POST["rechercher"]) === false) {
                 if ($_SESSION["aliment_banni"] == NULL) {
-                    $_SESSION["aliment_banni"] = "" . $_POST["rechercher"]."";
+                    $_SESSION["aliment_banni"] = $_POST["rechercher"];
                 } else {
                     if (stripos($_SESSION["aliment_banni"], $_POST["rechercher"]) === false) {
                         $_SESSION["aliment_banni"] = $_SESSION["aliment_banni"] . " / " . $_POST["rechercher"];
@@ -133,6 +139,7 @@
                 <br>
                 <form name="rechercher_aliments" style="display: inline;">
                     <input type="hidden" name="le_type" id="le_type" />
+                    <input type="hidden" name="le_score" id="le_score" />
                     <h4>Ajoutez/Bannissez d'autres aliments :</h4>
                     <input type="text" name="rechercher" id="ingredient" autofocus></input>
                     <input type="button" style="width:75px;height:35px;margin:3px;" value="Ajouter" onClick="valide_aliment(1)"></input>
@@ -143,13 +150,14 @@
 
                 <br><br>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3>Voici la liste des recettes correspondantes à votre recherche : <span id="nbr"></span></h3>
+                    <h3>Voici la liste des recettes <span id="score"></span>correspondantes à votre recherche : <span id="nbr"></span></h3>
                     <h5>Vous pouvez cliquer sur la flèche <a>→</a> à droite du nom d'une recette pour y accéder.</h5><br>
 
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover save-stage dataTable" style="width:100%;">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th style="text-align:left;">Recettes</th>
                                     <th style="text-align:left;">Ingrédients</th>
                                 </tr>
@@ -167,6 +175,19 @@
                                 if (strlen($_SESSION["aliment_choisi"]) < 1 && strlen($_SESSION["aliment_banni"]) < 1) {
                                     $sql = "";
                                 } else {
+
+                                    if ($_POST["le_score"]==1) {
+                                        $score="or";
+                                        echo ("<script>
+                                            document.getElementById('score').innerHTML=' <span style=\"color:red;font-weight:800;\">mode SCORE</span> ';
+                                        </script>");
+                                    } else {
+                                        $score="and";
+                                        echo ("<script>
+                                            document.getElementById('score').innerHTML='';
+                                        </script>");
+                                    }
+
                                     $_SESSION["aliment_choisi"] = trim($_SESSION["aliment_choisi"]);
                                     //les aliments banni
                                     $_SESSION["aliment_banni"] = trim($_SESSION["aliment_banni"]);
@@ -174,19 +195,20 @@
                                     $lesingredients_banni = "contenu like \"%  " . $_SESSION["aliment_banni"] . "  %\"";
                                     $lesingredients = "contenu like \"%  " . $_SESSION["aliment_choisi"] . "  %\"";
                                     // Citron / Herbe / Fraise
-                                    $lesingredients = str_replace(" / ", "  %\" and contenu like \"  %  ", $lesingredients);
+                                    $lesingredients = str_replace(" / ", "  %\" ".$score." contenu like \"  %  ", $lesingredients);
                                     $lesingredients_banni = str_replace(" / ", "  %\" or contenu like \"  %  ", $lesingredients_banni);
-                                    //'Citron','Herbe','Fraise'                                            
-                                    echo ($_SESSION["aliment_choisi"]);
-                                    echo ("<br>" . $lesingredients);
+                                    //'Citron','Herbe','Fraise' 
+                                    
+                                    // echo ($_SESSION["aliment_choisi"]);
+                                    // echo ("<br>" . $lesingredients);
 
-                                    echo ("<br>" . $_SESSION["aliment_banni"]);
-                                    echo ("<br>" . $lesingredients_banni);
+                                    // echo ("<br>" . $_SESSION["aliment_banni"]);
+                                    // echo ("<br>" . $lesingredients_banni);
 
                                     $sql = "
-                                        SELECT rec_titre,contenu FROM (
+                                        SELECT rec_titre,contenu,rec_idRecette FROM (
                                         SELECT
-                                            rec_titre,GROUP_CONCAT(concat('  ', al_nomAliment,'  ')) contenu
+                                            rec_titre,GROUP_CONCAT(concat('  ', al_nomAliment,'  ')) contenu,rec_idRecette
                                         FROM
                                             Recettes
                                         LEFT JOIN Ingredients ON rec_idRecette = ing_idRecette
@@ -210,14 +232,15 @@
                                     ";
 
                                     $sql3 = "
-                                        SELECT rec_titre,contenu FROM (
+                                        SELECT rec_titre,contenu,rec_idRecette FROM (
                                         ".$sql." AND rec_titre NOT IN (".$sql2.")
                                         ) c
                                     ";
                                 }
 
 
-                                echo ("<br>" . $sql3);
+                                // echo ("<br>" . $sql3);
+                                // echo ("<br>" . $_POST["le_score"]);
                                 $result = $conn->query($sql3);
 
                                 if ($result->num_rows > 0) {
@@ -235,9 +258,11 @@
                                             document.getElementById('nbr').innerHTML='(" . ($result->num_rows) . ")';
                                         </script>");
                                 } else {
-                                    echo ("<script>
-                                        document.getElementById('nbr').innerHTML='';
-                                    </script>");
+                                    if (strlen($_SESSION["aliment_choisi"])>0) {
+                                        echo ("<script>
+                                            document.getElementById('nbr').innerHTML='<br>Aucun résultat veuillez cliquer ici:<button style=\"width:225px;height:35px;margin:3px;\" onclick=\"recherche_score();\"> Recherche Score </button>';
+                                        </script>");
+                                    }
                                 }
 
                                 $conn->close();
