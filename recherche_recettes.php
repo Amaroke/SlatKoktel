@@ -267,10 +267,11 @@
                                         // On affiche les recettes et les ingrédients.
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
+
                                                 echo ("       
                                             <tr>
                                             <td>&nbsp;&nbsp;&nbsp;</td>
-                                            <td>" . $row["rec_titre"] . "</td>
+                                            <td>" . $row["rec_titre"] . '<a href="single.php?id_recette=' . $row["rec_idRecette"] . '"> →</a>' . "</td>
                                             <td>" . $row["contenu"] . "</td>
                                             </tr>
                                             ");

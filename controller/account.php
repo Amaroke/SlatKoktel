@@ -6,7 +6,30 @@ $uti_pseudo = "";
 if (isset($_SESSION["uti_connecte"])) {
     $uti_pseudo = $_SESSION["uti_connecte"];
 }
-
+if(!isset($_POST["uti_email"])){
+    $_POST["uti_email"] = NULL;
+}
+if(!isset($_POST["uti_prenom"])){
+    $_POST["uti_prenom"] = NULL;
+}
+if(!isset($_POST["uti_nom"])){
+    $_POST["uti_nom"] = NULL;
+}
+if(!isset($_POST["uti_ville"])){
+    $_POST["uti_ville"] = NULL;
+}
+if(!isset($_POST["uti_adresse"])){
+    $_POST["uti_adresse"] = NULL;
+}
+if(!isset($_POST["uti_codePostal"])){
+    $_POST["uti_codePostal"] = NULL;
+}
+if(!isset($_POST["uti_telephone"])){
+    $_POST["uti_telephone"] = NULL;
+}
+if(!isset($_POST["uti_naissance"])){
+    $_POST["uti_naissance"] = NULL;
+}
 // On utilise htmlspecialchars pour empêcher les failles de sécurité.
 $uti_email = htmlspecialchars($_POST["uti_email"]);
 
@@ -33,6 +56,7 @@ if (strlen($uti_oldmdp) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
         // On vérifie que l'email n'est pas déjà pris.
         $test_oldmdp = $bdd->prepare("SELECT uti_mdp FROM Utilisateurs WHERE uti_pseudo = '" . $uti_pseudo . "' AND uti_mdp = '" . $uti_oldmdp . "' ");
         $test_oldmdp->execute();
+        $nb_res = 0;
         $nb_res += $test_oldmdp->rowCount();
 
         // Si il le mot de passe saisie est bien celui lié à l'utilisateur.
