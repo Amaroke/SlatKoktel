@@ -1,9 +1,6 @@
 <?php
 include('config.php');
 
-session_start();
-$_SESSION["ingrediant"];
-
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -47,4 +44,3 @@ if(isset($_REQUEST["term"])){ //$_REQUEST -> AJAX permettant d'obtenir les donnÃ
  
 // close connection
 mysqli_close($conn);
-?>

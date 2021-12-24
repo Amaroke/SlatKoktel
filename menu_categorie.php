@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (isset($_GET["dernier_choix"])) {
     $dernier_choix = $_GET["dernier_choix"];
 } else {
@@ -51,7 +50,7 @@ for ($i = 1; $i < 9; ++$i) {
         echo ("<br><br>");
 
         // On se connecte à la BDD.
-        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+        $bdd = new PDO('mysql:host=localhost;dbname=id18170749_slatkoktel;charset=utf8', 'id18170749_amaroke', '/]jptFa>FGDK-1vP');
 
         // On récupère l'id et le nom de l'aliment sélectionné.
         $sql = "SELECT a.al_idAliment, a.al_nomAliment FROM Aliments a JOIN SuperCategorie sp ON sp.spc_idAliment = a.al_idAliment WHERE sp.spc_idAlimentSuperCategorie = :choix";

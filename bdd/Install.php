@@ -1,12 +1,13 @@
 <?php
 
+// Connexion à la BDD.
+$bdd = new PDO('mysql:host=localhost;dbname=id18170749_slatkoktel;charset=utf8', 'id18170749_amaroke', '/]jptFa>FGDK-1vP');
 // Création des requêtes.
-$bdd = new PDO('mysql:host=localhost;charset=utf8', 'slatkoktel', 'root2');
-$creation = 'DROP DATABASE IF EXISTS SlatKoktel ;
+$creation = 'DROP DATABASE IF EXISTS id18170749_slatkoktel ;
 
-					CREATE DATABASE IF NOT EXISTS SlatKoktel ;
+					CREATE DATABASE IF NOT EXISTS id18170749_slatkoktel ;
 
-					USE SlatKoktel ;
+					USE id18170749_slatkoktel ;
 
 					CREATE TABLE Recettes (
 						rec_idRecette INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -81,6 +82,7 @@ include('../assets/Donnees.inc.php');
 if (!empty($Recettes) && !empty($Hierarchie)) {
   // Insertion dans la table Recettes.
   try {
+    // Pour chaque recettes, on l'insère dans la BDD.
     foreach ($Recettes as $cocktail) {
       $insertionRecettes = 'INSERT INTO Recettes (rec_titre, rec_ingredients, rec_preparation) VALUES (:titre, :ingredients, :preparation);';
       $insertionRecettesRequete = $bdd->prepare($insertionRecettes);
@@ -99,8 +101,8 @@ if (!empty($Recettes) && !empty($Hierarchie)) {
 
   // Insertion dans la table Aliments.
   try {
+    // Pour chaque aliments, on l'insère dans la BDD.
     foreach ($Hierarchie as $nomAliment => $aliment) {
-
       $insertionAliments = 'INSERT INTO Aliments (al_nomAliment) VALUES (:nomAliment);';
       $insertionAlimentsRequete = $bdd->prepare($insertionAliments);
       $insertionAlimentsRequete->execute(array('nomAliment' => $nomAliment));
@@ -114,6 +116,7 @@ if (!empty($Recettes) && !empty($Hierarchie)) {
 
   // Insertion dans la table SuperCategorie.
   try {
+    // Pour chaque SuperCategorie, on l'insère dans la BDD.
     foreach ($Hierarchie as $nomAliment => $aliment) {
       // On ignore l'aliment "Aliment".
       if (!empty($aliment['super-categorie'])) {
@@ -141,6 +144,7 @@ if (!empty($Recettes) && !empty($Hierarchie)) {
 
   // Insertion dans la table Ingredients.
   try {
+    // Pour chaque ingrédients, on l'insère dans la BDD.
     foreach ($Recettes as $cocktail) {
       $insertionConstitution = 'INSERT INTO Ingredients (ing_idRecette, ing_idAliment)
 											VALUES (
@@ -163,5 +167,3 @@ if (!empty($Recettes) && !empty($Hierarchie)) {
   }
   echo ' - Table Ingrédients remplie.<br/>';
 }
-
-?>

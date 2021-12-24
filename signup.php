@@ -27,7 +27,7 @@
 					<input type="text" name="uti_adresse" placeholder="Adresse" class="no-margin" />
 					<input type="text" name="uti_codePostal" placeholder="Code Postal" />
 					<input type="text" name="uti_ville" placeholder="Ville" class="no-margin" />
-					<input type="text" name="uti_telephone" placeholder="Numéro de mobile" minlength="10" maxlength="10"/>
+					<input type="text" name="uti_telephone" placeholder="Numéro de mobile" minlength="10" maxlength="10" />
 					<input type="submit" value="Envoyer">
 				</form>
 			</div>

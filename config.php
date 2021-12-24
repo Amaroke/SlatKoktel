@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$username = "slatkoktel";
-$password = "root2";
-$dbname = "SlatKoktel";
+$username = "id18170749_amaroke";
+$password = "/]jptFa>FGDK-1vP";
+$dbname = "id18170749_slatkoktel";
 ?>

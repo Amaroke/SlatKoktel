@@ -10,6 +10,7 @@
 	<?php
 	function recuperer_nom_image($str)
 	{
+		// On retire les accents et autres trucs nécessaires pour avoir le nom de l'image.
 		$newStr = $str;
 		$newStr = preg_replace('#Ç#', 'C', $newStr);
 		$newStr = preg_replace('#ç#', 'c', $newStr);
@@ -42,13 +43,16 @@
 					$id = $_GET["id_recette"];
 				}
 
-				$bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+				// On se connecte à la BDD.
+				$bdd = new PDO('mysql:host=localhost;dbname=id18170749_slatkoktel;charset=utf8', 'id18170749_amaroke', '/]jptFa>FGDK-1vP');
 
+				// On récupère les informations des recettes.
 				$sql = "SELECT rec_titre, rec_ingredients, rec_preparation FROM Recettes WHERE rec_idRecette = :id";
 				$stmt = $bdd->prepare($sql);
 				$stmt->bindParam(':id', $id);
 				$stmt->execute();
 
+				// On affiche les informations avec l'image si elle existe.
 				$row = $stmt->fetch();
 				$tab = explode("|", $row["rec_ingredients"]);
 				echo ("<h1>" . $row["rec_titre"] . "</h1><br>");
@@ -64,8 +68,12 @@
 					echo ("<br><br><h4>Voici une image de la boisson :</h4>");
 					echo ('<img class="img-responsive" src="assets/images/' . recuperer_nom_image(ucfirst(strtolower($row["rec_titre"]))) . '.jpg" />');
 				}
-				$str = $_SESSION["favoris"];
+				$str = "";
+				if (isset($_SESSION["favoris"])) {
+					$str = $_SESSION["favoris"];
+				}
 				$tab = explode(" ", $str);
+				// On affiche les bouttons qui servent à ajouter/supprimer des favoris.
 				if (!in_array($id, $tab)) {
 					echo ('<form name="favorite" method="POST" action="controller/favorite.php?add=true&id_recette=' . $id . '">');
 					echo ('<br><br><input type="submit" value="Ajouter aux recettes préférées"></form>');

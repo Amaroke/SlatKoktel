@@ -38,16 +38,19 @@
 					} else {
 						$dernier_choix = 0;
 					}
-
+					$_SESSION["choix0"] = NULL;
 					if ((strlen($_SESSION["choix" . $dernier_choix]) > 0)) {
-						$bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+						// On se connecte à la BDD.
+						$bdd = new PDO('mysql:host=localhost;dbname=id18170749_slatkoktel;charset=utf8', 'id18170749_amaroke', '/]jptFa>FGDK-1vP');
 
+						// On prépare les requêtes qui récupère les ing_idRecette.
 						$sql = "SELECT ing_idRecette FROM Ingredients WHERE	ing_idAliment = :choix";
 						$stmt = $bdd->prepare($sql);
 						$stmt->bindParam(':choix', $_SESSION["choix" . ($dernier_choix)]);
 						$stmt->execute();
 
 						while ($row = $stmt->fetch()) {
+							// On récupère les titre et les id pour afficher la liste.
 							$sql2 = "SELECT rec_titre, rec_idRecette FROM Recettes WHERE rec_idRecette = :choix";
 							$stmt2 = $bdd->prepare($sql2);
 							$stmt2->bindParam(':choix', $row['ing_idRecette']);

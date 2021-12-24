@@ -6,16 +6,7 @@
 			<div class="top-nav">
 				<div class="content white">
 					<nav class="navbar navbar-default" role="navigation">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-
-						</div>
-						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<div id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
 								<div class="navbar-brand logo">
 									<a href="index.php"><img src="assets/images/logo1.png" alt=""></a>
@@ -33,7 +24,11 @@
 					<div class="head-signin">
 						<?php
 						session_start();
-						$var = $_SESSION["uti_connecte"];
+						$var = "";
+						if (isset($_SESSION["uti_connecte"])) {
+							$var = $_SESSION["uti_connecte"];
+						}
+
 						if ($var == "") {
 							echo ('<h5><a href="login.php"><i class="hd-dign"></i>  Connexion</a></h5>');
 						} else {

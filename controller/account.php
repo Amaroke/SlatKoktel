@@ -2,8 +2,12 @@
 
 // On récupère les données saisies.
 session_start();
-$uti_pseudo = $_SESSION["uti_connecte"];
+$uti_pseudo = "";
+if (isset($_SESSION["uti_connecte"])) {
+    $uti_pseudo = $_SESSION["uti_connecte"];
+}
 
+// On utilise htmlspecialchars pour empêcher les failles de sécurité.
 $uti_email = htmlspecialchars($_POST["uti_email"]);
 
 $uti_prenom = htmlspecialchars($_POST["uti_prenom"]);
@@ -24,7 +28,7 @@ $uti_oldmdp = htmlspecialchars($_POST["old_mdp"]);
 if (strlen($uti_oldmdp) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
     try {
         // On se connecte à la BDD.
-        $bdd = new PDO('mysql:host=localhost;dbname=SlatKoktel;charset=utf8;', 'slatkoktel', 'root2');
+        $bdd = new PDO('mysql:host=localhost;dbname=id18170749_slatkoktel;charset=utf8', 'id18170749_amaroke', '/]jptFa>FGDK-1vP');
 
         // On vérifie que l'email n'est pas déjà pris.
         $test_oldmdp = $bdd->prepare("SELECT uti_mdp FROM Utilisateurs WHERE uti_pseudo = '" . $uti_pseudo . "' AND uti_mdp = '" . $uti_oldmdp . "' ");
