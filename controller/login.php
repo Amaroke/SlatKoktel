@@ -44,6 +44,9 @@ try {
 
     // Je récupère les favoris de l'utilisateur lorsqu'il se connecte.
     $_SESSION["favoris"] = "";
+    if(!isset($_SESSION['uti_connecte_id'] )){
+        $_SESSION['uti_connecte_id'] = "";
+    }
     $recup_recette = 'SELECT fav_idRecette FROM Favoris WHERE fav_idUtilisateur="' . $_SESSION['uti_connecte_id'] . '"';
 
     $stmt2 = $bdd->prepare($recup_recette);

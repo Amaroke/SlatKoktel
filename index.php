@@ -6,7 +6,9 @@
 </head>
 
 <body>
-	<?php include 'header.php';	?>
+	<?php include 'header.php';
+	$_SESSION["aliment_choisi"] = "";
+	$_SESSION["aliment_banni"] = "";	?>
 
 	<div class="banner">
 		<div class="container">

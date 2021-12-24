@@ -223,7 +223,7 @@
 
                                     // On les replace par des ,.
                                     $lesingredients = str_replace(" / ", "  %\" " . $score . " contenu like \"  %  ", $lesingredients);
-                                    $lesingredients_banni = str_replace(" / ", "  %\" or contenu like \"  %  ", $lesingredients_banni);
+                                    $lesingredients_banni = str_replace(" / ", "  %\" or contenu like \"%  ", $lesingredients_banni);
 
                                     // Requête qui récupère les recettes avec aliment choisi.
                                     $sql = "
