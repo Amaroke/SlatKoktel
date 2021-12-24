@@ -76,6 +76,9 @@
     if (!isset($_POST["rechercher"])) {
         $_POST["rechercher"] = NULL;
     }
+    if (!isset($_POST["le_type"])) {
+        $_POST["le_type"] = NULL;
+    }
     // Si une recherche est en cours.
     if ($_POST["le_type"] == 3) {
         // On reset les aliments choisi et banni quand on appuie sur reset.
@@ -258,30 +261,30 @@
                                     ";
                                 }
 
-                                if (!isset($sql3)) {
-                                    $sql3 = NULL;
-                                }
-                                $result = $conn->query($sql3);
-
-                                // On affiche les recettes et les ingrédients.
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo ("       
+                                if (isset($sql3)) {
+                                    $result = $conn->query($sql3);
+                                    if (isset($result->num_rows)) {
+                                        // On affiche les recettes et les ingrédients.
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo ("       
                                             <tr>
                                             <td>&nbsp;&nbsp;&nbsp;</td>
                                             <td>" . $row["rec_titre"] . "</td>
                                             <td>" . $row["contenu"] . "</td>
                                             </tr>
                                             ");
-                                    }
-                                    echo ("<script>
+                                            }
+                                            echo ("<script>
                                             document.getElementById('nbr').innerHTML='(" . ($result->num_rows) . ")';
                                         </script>");
-                                } else {
-                                    if (strlen($_SESSION["aliment_choisi"]) > 0) {
-                                        echo ("<script>
+                                        } else {
+                                            if (strlen($_SESSION["aliment_choisi"]) > 0) {
+                                                echo ("<script>
                                             document.getElementById('nbr').innerHTML='<br>Aucun résultat veuillez cliquer ici:<button style=\"width:225px;height:35px;margin:3px;\" onclick=\"recherche_score();\"> Recherche Score </button>';
                                         </script>");
+                                            }
+                                        }
                                     }
                                 }
                                 $conn->close();

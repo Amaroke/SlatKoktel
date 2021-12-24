@@ -23,6 +23,7 @@ if (strlen($uti_pseudo) > 1 && strlen($uti_mdp) > 1 && $uti_mdp == $uti_mdp2) {
         // On vérifie que l'email n'est pas déjà pris.
         $test_login = $bdd->prepare("SELECT uti_pseudo FROM Utilisateurs WHERE uti_pseudo = '" . $uti_pseudo . "' ");
         $test_login->execute();
+        $nb_res=0;
         $nb_res += $test_login->rowCount();
 
         if ($nb_res == 0) {

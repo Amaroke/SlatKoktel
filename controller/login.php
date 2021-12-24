@@ -34,7 +34,7 @@ try {
 
     // On ajoute les favoris temporaires à l'utilisateur.
     for ($i = 1; $i < count($tab); ++$i) {
-        $sql = 'INSERT INTO Favori(fav_idUtilisateur, fav_idRecette) VALUES (:fav_idUtilisateur, :fav_idRecette);';
+        $sql = 'INSERT INTO Favoris(fav_idUtilisateur, fav_idRecette) VALUES (:fav_idUtilisateur, :fav_idRecette);';
 
         $stmt = $bdd->prepare($sql);
         $stmt->bindParam(':fav_idUtilisateur', $_SESSION["uti_connecte_id"]);
